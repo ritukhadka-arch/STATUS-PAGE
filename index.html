@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DG Cloud | Service Status</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg-dark: #0b0f19;
+        --text-main: #f3f4f6;
+        --text-muted: #9ca3af;
+        --accent-primary: #6366f1;
+        --gradient-text: linear-gradient(135deg, #a5b4fc 0%, #6366f1 100%);
+        --status-up: #10b981;
+        --status-down: #ef4444;
+      }
+
+      body {
+        background-color: var(--bg-dark);
+        color: var(--text-main);
+        font-family: "Plus Jakarta Sans", sans-serif;
+        margin: 0;
+        padding: 8rem 10%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      /* Logo Styling */
+      .header-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 1.5rem 10%;
+        display: flex;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 800;
+        letter-spacing: 2px;
+        background: var(--gradient-text);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        cursor: pointer;
+      }
+
+      .logo:hover {
+        transform: scale(1.04);
+        text-shadow: 0 0 25px rgba(99, 102, 241, 0.6);
+      }
+
+      .status-container {
+        width: 100%;
+        max-width: 800px;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+      .header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .summary-bar {
+        background: rgba(19, 26, 44, 0.6);
+        padding: 1.5rem;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        text-align: center;
+        margin-bottom: 2rem;
+        font-weight: 600;
+      }
+
+      .node-card {
+        background: rgba(19, 26, 44, 0.6);
+        padding: 1.5rem 2rem;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+
+      .status-pill {
+        padding: 0.4rem 1rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+      }
+      .up {
+        color: var(--status-up);
+        border: 1px solid var(--status-up);
+      }
+      .up .status-dot {
+        background: var(--status-up);
+        box-shadow: 0 0 8px var(--status-up);
+      }
+      .down {
+        color: var(--status-down);
+        border: 1px solid var(--status-down);
+      }
+      .down .status-dot {
+        background: var(--status-down);
+        box-shadow: 0 0 8px var(--status-down);
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header-nav">
+      <div class="logo">DG CLOUD</div>
+    </header>
+
+    <div class="status-container">
+      <div class="header">
+        <h1>System Status</h1>
+        <p style="color: var(--text-muted)">
+          Current operational diagnostics for DG Cloud infrastructure.
+        </p>
+      </div>
+
+      <div class="summary-bar">
+        System Status:
+        <span style="color: var(--status-down)">Partial Outage</span>
+      </div>
+
+      <div class="node-card">
+        <span>Main Website</span>
+        <div class="status-pill up">
+          <div class="status-dot"></div>
+          OPERATIONAL
+        </div>
+      </div>
+
+      <div class="node-card">
+        <span>Control Panel</span>
+        <div class="status-pill up">
+          <div class="status-dot"></div>
+          OPERATIONAL
+        </div>
+      </div>
+
+      <div class="node-card">
+        <span>Node-1 (Primary Cluster)</span>
+        <div class="status-pill up">
+          <div class="status-dot"></div>
+          OPERATIONAL
+        </div>
+      </div>
+
+      <div class="node-card">
+        <span>Node-2 (Storage Array)</span>
+        <div class="status-pill down">
+          <div class="status-dot"></div>
+          OFFLINE
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

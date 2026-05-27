@@ -17,6 +17,7 @@
         --gradient-text: linear-gradient(135deg, #a5b4fc 0%, #6366f1 100%);
         --status-up: #10b981;
         --status-down: #ef4444;
+        --status-warn: #eab308;
       }
 
       body {
@@ -24,37 +25,112 @@
         color: var(--text-main);
         font-family: "Plus Jakarta Sans", sans-serif;
         margin: 0;
-        padding: 8rem 10%;
+        /* Start with safety top padding for the sticky banner */
+        padding: 6rem 5% 4rem 5%;
         display: flex;
         flex-direction: column;
         align-items: center;
+        /* Smooth transition for when the structural blank area collapses */
+        transition: padding-top 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       }
 
-      /* Logo Styling */
-      .header-nav {
+      /* Ultra-Compact, Sticky, Fixed Neon Banner */
+      .maintenance-banner {
         position: fixed;
-        top: 0;
-        left: 0;
+        top: 0.75rem;
+        left: 50%;
+        transform: translate(-50%, -10px);
+        width: 92%;
+        max-width: 520px;
+        background: rgba(11, 15, 25, 0.85);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4),
+          0 0 10px rgba(99, 102, 241, 0.1);
+        padding: 0.5rem 2.5rem 0.5rem 1rem;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        z-index: 9999;
+        box-sizing: border-box;
+        opacity: 0;
+        animation: bannerPop 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+
+      .maintenance-content {
+        font-weight: 600;
+        font-size: 0.8rem;
+        letter-spacing: 0.1px;
+        color: #cbd5e1;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        line-height: 1.4;
+      }
+
+      .maintenance-tag {
+        color: #a5b4fc;
+        font-weight: 800;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        background: rgba(99, 102, 241, 0.12);
+        padding: 0.1rem 0.4rem;
+        border-radius: 4px;
+        border: 1px solid rgba(99, 102, 241, 0.2);
+        white-space: nowrap;
+      }
+
+      .banner-close {
+        position: absolute;
+        right: 0.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: var(--text-muted);
+        font-size: 1.1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        transition: color 0.3s ease, background-color 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+
+      .banner-close:hover {
+        color: var(--status-down);
+        background: rgba(239, 68, 68, 0.1);
+        box-shadow: 0 0 6px rgba(239, 68, 68, 0.15);
+      }
+
+      /* Logo Layout */
+      .header-nav {
         width: 100%;
-        padding: 1.5rem 10%;
+        max-width: 800px;
+        margin-bottom: 2rem;
         display: flex;
         align-items: center;
       }
 
       .logo {
-        font-size: 1.5rem;
+        font-size: 1.25rem;
         font-weight: 800;
         letter-spacing: 2px;
         background: var(--gradient-text);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        transition: all 0.4s ease;
         cursor: pointer;
       }
 
       .logo:hover {
-        transform: scale(1.04);
-        text-shadow: 0 0 25px rgba(99, 102, 241, 0.6);
+        transform: scale(1.02);
+        text-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
       }
 
       .status-container {
@@ -64,16 +140,16 @@
 
       .header {
         text-align: center;
-        margin-bottom: 3rem;
+        margin-bottom: 2.5rem;
       }
       .header h1 {
-        font-size: 2.5rem;
-        margin-bottom: 1rem;
+        font-size: 2.2rem;
+        margin-bottom: 0.75rem;
       }
 
       .summary-bar {
         background: rgba(19, 26, 44, 0.6);
-        padding: 1.5rem;
+        padding: 1.25rem;
         border-radius: 12px;
         border: 1px solid rgba(255, 255, 255, 0.05);
         text-align: center;
@@ -83,28 +159,42 @@
 
       .node-card {
         background: rgba(19, 26, 44, 0.6);
-        padding: 1.5rem 2rem;
+        padding: 1.25rem 1.75rem;
         border-radius: 12px;
         border: 1px solid rgba(255, 255, 255, 0.05);
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 1rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .node-info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .node-subtext {
+        font-size: 0.75rem;
+        color: var(--status-warn);
+        font-weight: 600;
+        letter-spacing: 0.2px;
       }
 
       .status-pill {
-        padding: 0.4rem 1rem;
+        padding: 0.35rem 0.85rem;
         border-radius: 20px;
-        font-size: 0.85rem;
+        font-size: 0.8rem;
         font-weight: 700;
         display: flex;
         align-items: center;
         gap: 8px;
+        white-space: nowrap;
       }
 
       .status-dot {
-        width: 8px;
-        height: 8px;
+        width: 7px;
+        height: 7px;
         border-radius: 50%;
       }
       .up {
@@ -113,7 +203,7 @@
       }
       .up .status-dot {
         background: var(--status-up);
-        box-shadow: 0 0 8px var(--status-up);
+        box-shadow: 0 0 6px var(--status-up);
       }
       .down {
         color: var(--status-down);
@@ -121,11 +211,63 @@
       }
       .down .status-dot {
         background: var(--status-down);
-        box-shadow: 0 0 8px var(--status-down);
+        box-shadow: 0 0 6px var(--status-down);
+      }
+      .warning {
+        color: var(--status-warn);
+        border: 1px solid var(--status-warn);
+      }
+      .warning .status-dot {
+        background: var(--status-warn);
+        box-shadow: 0 0 6px var(--status-warn);
+      }
+
+      @keyframes bannerPop {
+        0% {
+          transform: translate(-50%, -20px);
+          opacity: 0;
+        }
+        100% {
+          transform: translate(-50%, 0);
+          opacity: 1;
+        }
+      }
+
+      @media (max-width: 640px) {
+        body {
+          padding-top: 5rem;
+        }
+        .maintenance-banner {
+          width: 95%;
+          top: 0.5rem;
+        }
+        .node-card {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 12px;
+        }
+        .status-pill {
+          align-self: flex-end;
+        }
       }
     </style>
   </head>
   <body>
+    <!-- Persistent, Sticky & Clean Neon Micro Banner -->
+    <div class="maintenance-banner" id="maintenanceBanner">
+      <div class="maintenance-content">
+        <span class="maintenance-tag">Maintenance</span>
+        Hosting infrastructure is under maintenance. We will be back soon!
+      </div>
+      <button
+        class="banner-close"
+        onclick="dismissBanner()"
+        aria-label="Dismiss banner"
+      >
+        &times;
+      </button>
+    </div>
+
     <header class="header-nav">
       <div class="logo">DG CLOUD</div>
     </header>
@@ -143,6 +285,7 @@
         <span style="color: var(--status-down)">Partial Outage</span>
       </div>
 
+      <!-- ==================== ONLINE SERVICES ==================== -->
       <div class="node-card">
         <span>Main Website</span>
         <div class="status-pill up">
@@ -152,18 +295,41 @@
       </div>
 
       <div class="node-card">
-        <span>Control Panel</span>
+        <span>Billing Panel</span>
         <div class="status-pill up">
           <div class="status-dot"></div>
           OPERATIONAL
         </div>
       </div>
 
+      <!-- ==================== DEGRADED SERVICES ==================== -->
+      <div class="node-card">
+        <div class="node-info">
+          <span>Backup Control Panel</span>
+          <span class="node-subtext"
+            >⚠️ Notice: Users may experience temporary bugs or glitches</span
+          >
+        </div>
+        <div class="status-pill warning">
+          <div class="status-dot"></div>
+          DEGRADED
+        </div>
+      </div>
+
+      <!-- ==================== OFFLINE SERVICES ==================== -->
+      <div class="node-card">
+        <span>Control Panel</span>
+        <div class="status-pill down">
+          <div class="status-dot"></div>
+          OFFLINE
+        </div>
+      </div>
+
       <div class="node-card">
         <span>Node-1 (Primary Cluster)</span>
-        <div class="status-pill up">
+        <div class="status-pill down">
           <div class="status-dot"></div>
-          OPERATIONAL
+          OFFLINE
         </div>
       </div>
 
@@ -175,5 +341,24 @@
         </div>
       </div>
     </div>
+
+    <script>
+      function dismissBanner() {
+        const banner = document.getElementById("maintenanceBanner");
+
+        // 1. Smoothly fade out and push the banner upward
+        banner.style.transition = "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)";
+        banner.style.opacity = "0";
+        banner.style.transform = "translate(-50%, -10px)";
+
+        // 2. Collapse the padding structural area directly in the body
+        document.body.style.paddingTop = "3rem";
+
+        // 3. Remove from the DOM tree entirely after transition is completed
+        setTimeout(() => {
+          banner.remove();
+        }, 300);
+      }
+    </script>
   </body>
 </html>
